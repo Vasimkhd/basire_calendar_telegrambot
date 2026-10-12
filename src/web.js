@@ -1,5 +1,6 @@
 const fs = require("fs");
 const http = require("http");
+const os = require("os");
 const path = require("path");
 const { OPEN, CLOSE, currentDate, currentMinutes } = require("./dates");
 
@@ -91,6 +92,30 @@ function createWebServer({
   });
 }
 
+function lanHost() {
+  let interfaces = {};
+  try {
+    interfaces = os.networkInterfaces();
+  } catch {
+    return '127.0.0.1';
+  }
+  const addresses = [];
+  for (const entries of Object.values(interfaces)) {
+    for (const entry of entries || []) {
+      const ipv4 = entry.family === 'IPv4' || entry.family === 4;
+      if (!ipv4 || entry.internal) continue;
+      addresses.push(entry.address);
+    }
+  }
+  const office = addresses.find((ip) => /^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[0-1])\.)/.test(ip));
+  return office || addresses[0] || '127.0.0.1';
+}
+
+function scheduleUrl({ host, port }) {
+  const name = String(host || '').trim() || lanHost();
+  return `http://${name}:${port}`;
+}
+
 function startWeb({ store, port, language, timeZone }) {
   const server = createWebServer({ store, language, timeZone });
   return new Promise((resolve, reject) => {
@@ -106,5 +131,6 @@ function startWeb({ store, port, language, timeZone }) {
 module.exports = {
   buildBoard,
   createWebServer,
+  scheduleUrl,
   startWeb,
 };

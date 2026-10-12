@@ -59,13 +59,13 @@ function createCopy(language) {
         ? `Здравствуйте${name ? `, ${name}` : ''}.`
         : `Hello${name ? ` ${name}` : ''}.`;
       const body = ru
-        ? 'Я бронирую две переговорные.\n\n/book — забронировать\n/my — мои брони'
-        : 'I book the two conference rooms.\n\n/book — book a room\n/my — my bookings';
+        ? 'Я бронирую две переговорные.\n\n/book — забронировать\n/my — мои брони\n/calendar — календарь'
+        : 'I book the two conference rooms.\n\n/book — book a room\n/my — my bookings\n/calendar — calendar';
       return `${hello}\n${body}\n\n${this.hours}`;
     },
     help: ru
-      ? 'Команды:\n/book — забронировать переговорную\n/my — мои брони'
-      : 'Commands:\n/book — book a room\n/my — my bookings',
+      ? 'Команды:\n/book — забронировать переговорную\n/my — мои брони\n/calendar — календарь'
+      : 'Commands:\n/book — book a room\n/my — my bookings\n/calendar — calendar',
     bookButton: ru ? 'Забронировать' : 'Book a room',
     changeRoom: ru ? 'Другая переговорная' : 'Different room',
     openBot: ru ? 'Открыть бота' : 'Open the bot',
@@ -98,6 +98,13 @@ function createCopy(language) {
       : 'Send /chatid in the group to see its id.',
     cmdBook: ru ? 'Бронь переговорной' : 'Book a room',
     cmdMy: ru ? 'Мои брони' : 'My bookings',
+    cmdCalendar: ru ? 'Календарь на неделю' : 'Week calendar',
+    calendarButton: ru ? 'Открыть календарь' : 'Open the calendar',
+    calendar(url) {
+      return ru
+        ? `Календарь переговорных:\n${url}\n\nСсылка работает только в сети Basire или с рабочего компьютера.`
+        : `Conference room calendar:\n${url}\n\nThis link works only on the Basire network, or from a work PC.`;
+    },
     myTitle: ru ? 'Мои брони' : 'My bookings',
     myEmpty: ru ? 'Предстоящих броней нет.' : 'You have no upcoming bookings.',
     cancel: ru ? 'Отменить' : 'Cancel',

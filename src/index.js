@@ -50,6 +50,7 @@ async function main() {
     await bot.telegram.setMyCommands([
       { command: "book", description: copy.cmdBook },
       { command: "my", description: copy.cmdMy },
+      { command: "calendar", description: copy.cmdCalendar },
     ]);
   } catch (error) {
     console.error(
@@ -69,7 +70,7 @@ async function main() {
       language: config.language,
       timeZone: config.timezone,
     });
-    console.log(`Schedule page: http://0.0.0.0:${config.webPort}`);
+    console.log(`Schedule page: ${config.webUrl}`);
     const closeWeb = () => web.close();
     process.once("SIGINT", closeWeb);
     process.once("SIGTERM", closeWeb);

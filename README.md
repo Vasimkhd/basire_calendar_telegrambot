@@ -19,7 +19,7 @@ npm start
 
 `TIMEZONE` defaults to `Asia/Tashkent` (UTC+5). `LANGUAGE` is `ru` or `en`.
 
-While the bot is running, a read-only week calendar is at [http://0.0.0.0:3000](http://0.0.0.0:3000). Days run across the top and hours down the side, Monday to Sunday, 07:00–18:00. Each room has its own color. The page only reads the JSON files. Change `WEB_PORT` if 3000 is taken. The page stays on this computer.
+`/calendar` sends the week calendar link. The reply says the page opens only on the Basire network or from a work PC. The link uses this computer's office address, or `WEB_HOST` if you set one. Days run across the top and hours down the side, Monday to Sunday, 07:00–18:00. Each room has its own color. The page only reads the JSON files. Change `WEB_PORT` if 3000 is taken.
 
 If the group title does not match, send `/chatid` in the group and set `GROUP_CHAT_ID` in `.env`.
 

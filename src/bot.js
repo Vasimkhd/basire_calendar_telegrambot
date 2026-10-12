@@ -79,6 +79,21 @@ function createBot({ bot, config, flow, store, access, copy }) {
     await sendMy(ctx, profile, null, 'reply');
   });
 
+  bot.command('calendar', async (ctx) => {
+    if (inGroup(ctx)) {
+      if (!access.isTargetGroup(ctx.chat)) {
+        await ctx.reply(copy.wrongGroup(config.groupTitle));
+        return;
+      }
+      await sendCalendar(ctx);
+      return;
+    }
+    if (!isPrivate(ctx)) return;
+    const profile = await requireUser(ctx);
+    if (!profile) return;
+    await sendCalendar(ctx);
+  });
+
   bot.command('chatid', async (ctx) => {
     if (!inGroup(ctx)) {
       await ctx.reply(copy.chatIdPrivate);
@@ -341,6 +356,12 @@ function createBot({ bot, config, flow, store, access, copy }) {
     const extra = Markup.inlineKeyboard(rows);
     if (mode === 'edit') await safeEdit(ctx, text, extra);
     else await ctx.reply(text, extra);
+  }
+
+  async function sendCalendar(ctx) {
+    await ctx.reply(copy.calendar(config.webUrl), Markup.inlineKeyboard([
+      [Markup.button.url(copy.calendarButton, config.webUrl)],
+    ]));
   }
 
   async function replyInGroup(ctx, payload) {

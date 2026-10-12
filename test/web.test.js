@@ -4,7 +4,8 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const { createStore } = require("../src/store");
-const { createWebServer } = require("../src/web");
+const { createCopy } = require("../src/i18n");
+const { createWebServer, scheduleUrl } = require("../src/web");
 
 function tempStore() {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "basire-web-"));
@@ -38,6 +39,15 @@ function tempStore() {
   });
   return { dir, store };
 }
+
+test("the calendar link names the office address and the Basire network", () => {
+  const url = scheduleUrl({ host: "10.1.2.3", port: 3000 });
+  assert.equal(url, "http://10.1.2.3:3000");
+  const text = createCopy("ru").calendar(url);
+  assert.match(text, /http:\/\/10\.1\.2\.3:3000/);
+  assert.match(text, /сети Basire/);
+  assert.match(text, /рабочего компьютера/);
+});
 
 test("the page is a read-only week calendar of the bookings", async () => {
   const { dir, store } = tempStore();
